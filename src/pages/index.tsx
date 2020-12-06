@@ -1,7 +1,16 @@
 import Link from 'next/link'
 import Header from 'src/components/Header'
 
-export default function Home() {
+export const getServerSideProps = async (context: any) => {
+  return {
+    props: {
+      ...context.query
+    }
+  }
+}
+
+export default function Home(props: any) {
+  console.log(props);
   return (
     <>
       <Header />
