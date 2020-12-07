@@ -61,10 +61,12 @@ export default class ExpressServer extends ServerContext {
 
       const io = new socketio.Server(listener);
 
-      io.on('connect', (socket:any ) => {
-        console.log('Connect happen');
-        socket.emit('now', {
+      io.on('connect', socket => {
+        socket.emit('connected', {
           message: 'zeit'
+        });
+        socket.on('disconnect', () => {
+          console.log('user disconnected');
         });
       });
     });

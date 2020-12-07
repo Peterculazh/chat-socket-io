@@ -12,6 +12,7 @@
     "@types/cookie-session": "^2.0.41",
     "@types/express": "^4.17.7",
     "@types/next": "^9.0.0",
+    "@types/socket.io": "^2.1.11",
     "@zeit/next-sass": "^1.0.1",
     "awilix": "^4.2.6",
     "awilix-express": "^3.0.0",
