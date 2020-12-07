@@ -11,6 +11,7 @@ import Server from 'next/dist/next-server/server/next-server';
 import { NextFunction } from "express-serve-static-core";
 import { AwilixContainer } from "awilix";
 import { parse } from 'url';
+import socketio from 'socket.io';
 
 
 export default class ExpressServer extends ServerContext {
@@ -53,9 +54,18 @@ export default class ExpressServer extends ServerContext {
         handle(req, res, parsedUrl);
       });
 
-      server.listen(config.port, (err: string) => {
+      const listener = server.listen(config.port, (err: string) => {
         if (err) throw err
         console.log(`> Ready on http://localhost:${config.port}`)
+      });
+
+      const io = new socketio.Server(listener);
+
+      io.on('connect', (socket:any ) => {
+        console.log('Connect happen');
+        socket.emit('now', {
+          message: 'zeit'
+        });
       });
     });
   }
