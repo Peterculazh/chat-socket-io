@@ -1,0 +1,60 @@
+.chat
+    max-width: 768px
+    padding: 0 15px
+    margin: 0 auto
+    margin-top: 30px
+    display: flex
+    flex-direction: column
+    justify-content: center
+
+    &-messages
+        border: 1px solid black
+        max-height: 80vh
+        height: 100vh
+        overflow-y: scroll
+
+    &-input
+        display: flex
+        width: 100%
+        border: 1px solid black
+        border-top: none
+
+        input
+            width: 100%
+            border: none
+            padding: 0 8px
+
+        button
+            border: none
+            background: black
+            color: white
+            padding: 6px 8px
+            font-size: 14px
+            line-height: 14px
+            text-transform: uppercase
+            transition: all 0.35s ease-in-out
+            cursor: pointer
+
+            &:hover
+                background: #242424
+
+            &:active
+                background-color: rgba(0, 0, 0, 0.7)
+
+    &-messages
+        .item
+            margin-bottom: 4px
+            border-bottom: 1px solid #000
+            padding: 2px 9px
+
+            &:last-child
+                border-bottom: none
+
+            &-info
+                display: flex
+
+                &-name
+                    margin-right: 5px
+                    font-weight: 600
+                    font-family: "IBM Plex"
+                    font-size: 15px

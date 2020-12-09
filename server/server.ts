@@ -11,6 +11,8 @@ import Server from 'next/dist/next-server/server/next-server';
 import { NextFunction } from "express-serve-static-core";
 import { AwilixContainer } from "awilix";
 import { parse } from 'url';
+import socketio from 'socket.io';
+import { create_message } from './utils/message';
 
 
 export default class ExpressServer extends ServerContext {
@@ -53,9 +55,22 @@ export default class ExpressServer extends ServerContext {
         handle(req, res, parsedUrl);
       });
 
-      server.listen(config.port, (err: string) => {
+      const listener = server.listen(config.port, (err: string) => {
         if (err) throw err
         console.log(`> Ready on http://localhost:${config.port}`)
+      });
+
+      const io = new socketio.Server(listener);
+
+      io.on('connect', socket => {
+        socket.emit('connected',
+          create_message("System", "Welcome to chat"));
+        socket.on("user message", (data: { author: string, message: string }) => {
+          io.emit('chat message', create_message(data.author, data.message));
+        })
+        socket.on('disconnect', () => {
+          console.log('user disconnected');
+        });
       });
     });
   }
@@ -65,7 +80,6 @@ export default class ExpressServer extends ServerContext {
       pathName: string,
       ssrData: any
     ) => {
-      console.log("I'm rendering and sending data if it is passed");
       this.nextApp.render(req, res, pathName, { ...req.params, ...req.query, ssrData });
     };
 
