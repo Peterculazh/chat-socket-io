@@ -28,7 +28,6 @@ export default function Home() {
         } else {
             socket = io();
             socket.on('connected', (data: any) => {
-                console.log(`data`);
                 console.log(data);
             });
             setError(null);
@@ -39,19 +38,19 @@ export default function Home() {
         <>
             <Header />
             {socket ?
-                <>
-                    <div>
-                        Welcome to chat
-                    </div>
-                </>
+                <div>
+                    Welcome to chat
+                </div>
                 :
                 <>
-                    <Login
-                        onSubmit={handleSubmitName}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                        error={error}
-                        value={name}
-                    />
+                    <Login onSubmit={handleSubmitName} className="form-login">
+                        <label>Please enter your name to join chat:</label>
+                        <div className={`form-login-input ${error ? "form-login-input-error" : ""}`}>
+                            <input type="text" value={name} onChange={e => setName(e.target.value)} />
+                            <small>{error}</small>
+                        </div>
+                        <button type="submit" className="form-login-submit">Join</button>
+                    </Login>
                 </>
             }
         </>
