@@ -1,5 +1,5 @@
 export interface IMessage{
     message: String,
-    time: number,
+    time: Date,
     author: String,
 }

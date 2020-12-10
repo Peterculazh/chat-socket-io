@@ -14,7 +14,7 @@ export const getServerSideProps = async (context: any) => {
 
 export default function Home() {
 
-    const [value, setValue] = useState("test");
+    const [value, setValue] = useState("");
     const [username, setUsername] = useState<string | null>(null);
     const [error, setError] = useState<String | null>(null);
 

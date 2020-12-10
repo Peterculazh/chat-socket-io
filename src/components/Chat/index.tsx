@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IMessage } from '../../interfaces/message';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,6 +13,8 @@ export default function Chat({ username }: IProps) {
     const [messages, setMessage] = useState<IMessage[]>([]);
     const [userMessage, setUserMessage] = useState("");
     const [socket, setSocket] = useState<any>(null);
+
+    const messageContainer: any = useRef(null);
 
     useEffect(() => {
         if (username && username.length > 2 && username.length < 15) {
@@ -31,6 +33,16 @@ export default function Chat({ username }: IProps) {
         }
     }, [socket]);
 
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    const scrollToBottom = () => {
+        if (messageContainer && messageContainer.current) {
+            messageContainer.current.scrollTop = messageContainer?.current?.scrollHeight;
+        }
+    }
+
     const handleSubmitMessage = (e: any) => {
         e.preventDefault();
         if (userMessage.length < 3) {
@@ -47,23 +59,23 @@ export default function Chat({ username }: IProps) {
 
     return (
         <div className="chat">
-            <div className="chat-messages">
+            <ul className="chat-messages" ref={messageContainer}>
                 {messages.map((value) =>
-                    <div className="item" key={uuidv4()}>
+                    <li className="item" key={uuidv4()}>
                         <div className="item-info">
                             <div className="item-info-name">
                                 {value.author}
                             </div>
                             <div className="item-info-time">
-                                {value.time}
+                                {new Date(value.time).toLocaleTimeString()}
                             </div>
                         </div>
                         <div className="item-message">
                             {value.message}
                         </div>
-                    </div>
+                    </li>
                 )}
-            </div>
+            </ul>
             <ChatInput
                 onChange={e => setUserMessage(e.target.value)}
                 value={userMessage}
