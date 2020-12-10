@@ -18,3 +18,5 @@ npm run dev
 yarn
 yarn dev
 ```
+
+To test chat on single machine you might use incognito and usual tab in same time or different browsers.
